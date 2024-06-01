@@ -30,10 +30,10 @@
         <el-table :data="tableData" height="250" style="width: 100%">
           <el-table-column prop="ID" label="ID" />
           <el-table-column prop="Minute" label="Minute"/>
-          <el-table-column prop="Fail time" label="Fail time" />
-          <el-table-column prop="Expected output" label="Expected output" />
-          <el-table-column prop="Actual output" label="Actual output" />
-          <el-table-column prop="correctness" label="correctness"/>
+          <el-table-column prop="Fail Time" label="Fail Time" />
+          <el-table-column prop="Expected Output" label="Expected Output" />
+          <el-table-column prop="Actual Output" label="Actual Output" />
+          <el-table-column prop="Result" label="Correctness"/>
         </el-table>
       </el-card>
     </el-col>
@@ -87,7 +87,7 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver{
 
 const handleChange = async () => {
   try {
-    const response = await axios.get('/api/TelecomCharge_data', { 
+    const response = await axios.get('http://127.0.0.1:5000/api/TelecomCharge_data', { 
       params: {
         value: choose_value.value
       }})
@@ -102,7 +102,7 @@ const handleChange = async () => {
 
 const startTest = async () => {
   try {
-    const response = await axios.get('/api/TelecomCharge_result', { 
+    const response = await axios.get('http://127.0.0.1:5000/api/TelecomCharge_result', { 
       params: {
         value: choose_value.value
       }})
