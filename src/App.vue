@@ -18,9 +18,9 @@
           <el-icon><Calendar /></el-icon>
           <span>万年历</span>
         </el-menu-item>
-        <el-menu-item index="3" >
+        <el-menu-item index="/TelecomCharges" >
           <el-icon><Document /></el-icon>
-          <span>Navigator Three</span>
+          <span>电信收费</span>
         </el-menu-item>
         <el-menu-item index="4">
           <el-icon><setting /></el-icon>
