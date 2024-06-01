@@ -11,7 +11,7 @@
         </template>
         <el-row :gutter="20">
           <el-col :span="16"><div class="grid-content ep-bg-purple" />
-            <el-select v-model="value" placeholder="Select" style="width: 240px">
+            <el-select v-model="choose_value" placeholder="Select" style="width: 240px" @change="handleChange">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -23,18 +23,18 @@
           </el-col>
           <el-col :span="8"><div class="grid-content ep-bg-purple" />
             <div class="mb-4">
-              <el-button plain>开始测试</el-button>
+              <el-button plain @click="startTest">开始测试</el-button>
             </div>
           </el-col>
         </el-row>
         <el-table :data="tableData" height="250" style="width: 100%">
-          <el-table-column prop="number" label="序号" />
-          <el-table-column prop="year" label="年"/>
-          <el-table-column prop="month" label="月" />
-          <el-table-column prop="day" label="日" />
-          <el-table-column prop="eoutput" label="预期输出" />
-          <el-table-column prop="aoutput" label="实际输出" />
-          <el-table-column prop="correctness" label="正确性"/>
+          <el-table-column prop="序号" label="序号" />
+          <el-table-column prop="年" label="年"/>
+          <el-table-column prop="月" label="月" />
+          <el-table-column prop="日" label="日" />
+          <el-table-column prop="预期输出" label="预期输出" />
+          <el-table-column prop="实际输出" label="实际输出" />
+          <el-table-column prop="正确性" label="正确性"/>
         </el-table>
       </el-card>
     </el-col>
@@ -46,9 +46,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { onMounted } from 'vue'
+// import { onMounted } from 'vue'
 import * as echarts from 'echarts'
-const value = ref('')
+import axios from 'axios'
+const choose_value = ref('')
 const options = [
   {
     value: '1',
@@ -60,91 +61,85 @@ const options = [
   },
   
 ]
+const tableData = ref([]);
+const debounce = (fn, delay) => {
+  let timer = null;
+  return function () {
+    let context = this;
+    let args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  }
+}
 
-const tableData = [
-  {
-    number: '1',
-    year: '2024',
-    month: '4',
-    day: '9',
-    eoutput:'2024-4-10',
-    aoutput:'-',
-    correctness:'Y'
+const _ResizeObserver = window.ResizeObserver;
+window.ResizeObserver = class ResizeObserver extends _ResizeObserver{
+  constructor(callback) {
+    callback = debounce(callback, 16);
+    super(callback);
+  }
+}
 
-  },
-  {
-    number: '1',
-    year: '2024',
-    month: '4',
-    day: '9',
-    eoutput:'2024-4-10',
-    aoutput:'-',
-    correctness:'Y'
+const handleChange = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/1/boudary')
+    tableData.value = response.data.tableData
+    // console.log(response.data);
+    console.log(tableData.value);
 
-  },
-  {
-    number: '1',
-    year: '2024',
-    month: '4',
-    day: '9',
-    eoutput:'2024-4-10',
-    aoutput:'-',
-    correctness:'Y'
+  } catch (error) {
+    console.error('Error fetching calendar_testdata:', error)
+  }
+}
 
-  },
-  {
-    number: '1',
-    year: '2024',
-    month: '4',
-    day: '9',
-    eoutput:'2024-4-10',
-    aoutput:'-',
-    correctness:'Y'
+const startTest = async () => {
+  try {
+    const response = await axios.get('/api/calendar_result', { 
+      params: {
+        value: choose_value.value
+      }})
+    tableData.value = response.data
+    // 初始化并显示饼状图
+    const myChart = echarts.init(document.getElementById('main'));
 
-  },
-]
-
-onMounted(() => {
-  const myChart = echarts.init(document.getElementById('main'));
-
-  const chartOptions = {
-    legend: {
-      orient: 'vertical',
-      x: 'left',
-      data: ['A', 'B', 'C', 'D', 'E']
-    },
-    series: [
-      {
-        type: 'pie',
-        radius: ['50%', '70%'],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: 'center'
-        },
-        labelLine: {
-          show: false
-        },
-        emphasis: {
+    const chartOptions = {
+      legend: {
+        orient: 'vertical',
+        x: 'left',
+        data: ['Y', 'N']
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['50%', '70%'],
+          avoidLabelOverlap: false,
           label: {
-            show: true,
-            fontSize: '30',
-            fontWeight: 'bold'
-          }
-        },
-        data: [
-          { value: 335, name: 'A' },
-          { value: 310, name: 'B' },
-          { value: 234, name: 'C' },
-          { value: 135, name: 'D' },
-          { value: 1548, name: 'E' }
-        ]
-      }
-    ]
-  };
+            show: false,
+            position: 'center'
+          },
+          labelLine: {
+            show: false
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '30',
+              fontWeight: 'bold'
+            }
+          },
+          data: response.data.chartData
+        }
+      ]
+    };
 
-  myChart.setOption(chartOptions);
-});
+    myChart.setOption(chartOptions);
+
+  } catch (error) {
+    console.error('Error starting test:', error)
+  }
+}
 
 </script>
 
