@@ -80,7 +80,7 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver{
 
 const handleChange = async () => {
   try {
-    const response = await axios.get('/api/ComputerSalesSystem_data', { 
+    const response = await axios.get('http://127.0.0.1:5000/api/ComputerSalesSystem_data', { 
       params: {
         value: choose_value.value
       }})
@@ -95,7 +95,7 @@ const handleChange = async () => {
 
 const startTest = async () => {
   try {
-    const response = await axios.get('/api/ComputerSalesSystem_result', { 
+    const response = await axios.get('http://127.0.0.1:5000/api/ComputerSalesSystem_result', { 
       params: {
         value: choose_value.value
       }})
