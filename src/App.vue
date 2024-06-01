@@ -18,13 +18,13 @@
           <el-icon><Calendar /></el-icon>
           <span>万年历</span>
         </el-menu-item>
+        <el-menu-item index="/ComputerSalesSystem">
+          <el-icon><setting /></el-icon>
+          <span>电脑销售系统</span>
+        </el-menu-item>
         <el-menu-item index="/TelecomCharges" >
           <el-icon><Document /></el-icon>
           <span>电信收费</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <el-icon><setting /></el-icon>
-          <span>Navigator Four</span>
         </el-menu-item>
       </el-menu>
       </el-aside>

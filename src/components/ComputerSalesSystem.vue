@@ -1,7 +1,7 @@
 <template>
   <el-card style="width: 100%" shadow="never">
-    <h1 style="font-weight: bold; font-size: 20px;">电信收费问题</h1>
-    <p>研究一个与我们生活息息相关的电信收费系统，描述如下：每月电话总费用包括25元基本月租费和折扣后的实际通话费（每分钟0.15元），无折扣则按实际通话费计算。折扣与当月通话时间及年度未按时缴费次数相关，如果未按时缴费次数超过通话时间对应的容许值，则无折扣。通话时间、折扣比例及未按时缴费次数之间有直接关系。</p>
+    <h1 style="font-weight: bold; font-size: 20px;">电脑销售系统</h1>
+    <p>这是一个关于电脑销售系统的问题，其中包括销售主机、显示器和外设，每个产品有不同的价格和最大销售数量限制。销售员每月至少要销售一台完整的电脑。</p>
   </el-card>
   <el-row :gutter="20">
     <el-col :span="16"><div class="grid-content ep-bg-purple" />
@@ -28,12 +28,13 @@
           </el-col>
         </el-row>
         <el-table :data="tableData" height="250" style="width: 100%">
-          <el-table-column prop="ID" label="ID" />
-          <el-table-column prop="Minute" label="Minute"/>
-          <el-table-column prop="Fail Time" label="Fail Time" />
-          <el-table-column prop="Expected Output" label="Expected Output" />
-          <el-table-column prop="Actual Output" label="Actual Output" />
-          <el-table-column prop="Result" label="Correctness"/>
+          <el-table-column prop="ID" label="序号" />
+          <el-table-column prop="Host" label="主机"/>
+          <el-table-column prop="Monitor" label="显示器" />
+          <el-table-column prop="Peripheral" label="外设" />
+          <el-table-column prop="Expected Output" label="期望输出" />
+          <el-table-column prop="Actual Output" label="实际输出" />
+          <el-table-column prop="Result" label="正确性"/>
         </el-table>
       </el-card>
     </el-col>
@@ -53,14 +54,6 @@ const options = [
   {
     value: '1',
     label: '边界值',
-  },
-  {
-    value: '2',
-    label: '等价类',
-  },
-  {
-    value: '3',
-    label: '决策表',
   }
   
 ]
@@ -87,22 +80,22 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver{
 
 const handleChange = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/api/TelecomCharge_data', { 
+    const response = await axios.get('/api/ComputerSalesSystem_data', { 
       params: {
         value: choose_value.value
       }})
     tableData.value = response.data.tableData
     // console.log(response.data);
-    // console.log(tableData.value);
+    console.log(tableData.value);
 
   } catch (error) {
-    console.error('Error fetching TelecomCharge_testdata:', error)
+    console.error('Error fetching ComputerSalesSystem_testdata:', error)
   }
 }
 
 const startTest = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/api/TelecomCharge_result', { 
+    const response = await axios.get('/api/ComputerSalesSystem_result', { 
       params: {
         value: choose_value.value
       }})
@@ -143,7 +136,7 @@ const startTest = async () => {
     myChart.setOption(chartOptions);
 
   } catch (error) {
-    console.error('Error starting TelecomCharge test:', error)
+    console.error('Error starting ComputerSalesSystem test:', error)
   }
 }
 

@@ -28,13 +28,13 @@
           </el-col>
         </el-row>
         <el-table :data="tableData" height="250" style="width: 100%">
-          <el-table-column prop="序号" label="序号" />
-          <el-table-column prop="年" label="年"/>
-          <el-table-column prop="月" label="月" />
-          <el-table-column prop="日" label="日" />
-          <el-table-column prop="预期输出" label="预期输出" />
-          <el-table-column prop="实际输出" label="实际输出" />
-          <el-table-column prop="正确性" label="正确性"/>
+          <el-table-column prop="ID" label="序号" />
+          <el-table-column prop="Year" label="年"/>
+          <el-table-column prop="Month" label="月" />
+          <el-table-column prop="Day" label="日" />
+          <el-table-column prop="Expect Output" label="预期输出" />
+          <el-table-column prop="Actual Output" label="实际输出" />
+          <el-table-column prop="Result" label="正确性"/>
         </el-table>
       </el-card>
     </el-col>
@@ -59,7 +59,10 @@ const options = [
     value: '2',
     label: '等价类',
   },
-  
+  {
+    value: '3',
+    label: '决策表',
+  },
 ]
 const tableData = ref([]);
 const debounce = (fn, delay) => {
@@ -84,19 +87,19 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver{
 
 const handleChange = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/1/boudary')
+    const response = await axios.get('http://127.0.0.1:5000/api/Calendar_data')
     tableData.value = response.data.tableData
     // console.log(response.data);
     console.log(tableData.value);
 
   } catch (error) {
-    console.error('Error fetching calendar_testdata:', error)
+    console.error('Error fetching Calendar_testdata:', error)
   }
 }
 
 const startTest = async () => {
   try {
-    const response = await axios.get('/api/calendar_result', { 
+    const response = await axios.get('http://127.0.0.1:5000/api/Calendar_result', { 
       params: {
         value: choose_value.value
       }})
@@ -137,7 +140,7 @@ const startTest = async () => {
     myChart.setOption(chartOptions);
 
   } catch (error) {
-    console.error('Error starting test:', error)
+    console.error('Error starting Calender test:', error)
   }
 }
 

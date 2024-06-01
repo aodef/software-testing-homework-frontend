@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CalenderProblem from '../components/CalenderProblem.vue'
 import TriangleProblem from '../components/TriangleProblem.vue'
+import ComputerSalesSystem from '../components/ComputerSalesSystem.vue'
 import TelecomCharges from '../components/TelecomCharges.vue'
 import Home from '../components/ProblemHome.vue'
 
@@ -18,6 +19,11 @@ const routes = [
     path: '/TriangleProblem',
     name: 'TriangleProblem',
     component: TriangleProblem
+  },
+  {
+    path: '/ComputerSalesSystem',
+    name: 'ComputerSalesSystem',
+    component: ComputerSalesSystem
   },
   {
     path: '/TelecomCharges',

@@ -11,7 +11,7 @@
         </template>
         <el-row :gutter="20">
           <el-col :span="16"><div class="grid-content ep-bg-purple" />
-            <el-select v-model="value" placeholder="Select" style="width: 240px">
+            <el-select v-model="choose_value" placeholder="Select" style="width: 240px" @change="handleChange">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -23,18 +23,18 @@
           </el-col>
           <el-col :span="8"><div class="grid-content ep-bg-purple" />
             <div class="mb-4">
-              <el-button plain>开始测试</el-button>
+              <el-button plain @click="startTest">开始测试</el-button>
             </div>
           </el-col>
         </el-row>
         <el-table :data="tableData" height="250" style="width: 100%">
-          <el-table-column prop="number" label="序号" />
+          <el-table-column prop="ID" label="序号" />
           <el-table-column prop="A" label="A"/>
           <el-table-column prop="B" label="B" />
           <el-table-column prop="C" label="C" />
-          <el-table-column prop="eoutput" label="预期输出" />
-          <el-table-column prop="aoutput" label="实际输出" />
-          <el-table-column prop="correctness" label="正确性"/>
+          <el-table-column prop="Expect Output" label="预期输出" />
+          <el-table-column prop="Actual Output" label="实际输出" />
+          <el-table-column prop="Result" label="正确性"/>
         </el-table>
       </el-card>
     </el-col>
@@ -46,9 +46,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { onMounted } from 'vue'
+// import { onMounted } from 'vue'
 import * as echarts from 'echarts'
-const value = ref('')
+import axios from 'axios'
+const choose_value = ref('')
 const options = [
   {
     value: '1',
@@ -58,95 +59,97 @@ const options = [
     value: '2',
     label: '等价类',
   },
+  {
+    value: '3',
+    label: '决策表',
+  }
   
 ]
-
-const tableData = [
-  {
-    number: '1',
-    A: '6',
-    B: '6',
-    C: '6',
-    eoutput:'等边三角形',
-    aoutput:'-',
-    correctness:'-'
-
-  },
-  {
-    number: '1',
-    A: '6',
-    B: '6',
-    C: '6',
-    eoutput:'等边三角形',
-    aoutput:'-',
-    correctness:'Y'
-
-  },
-  {
-    number: '1',
-    A: '6',
-    B: '6',
-    C: '6',
-    eoutput:'等边三角形',
-    aoutput:'-',
-    correctness:'Y'
-
-  },
-  {
-    number: '1',
-    A: '6',
-    B: '6',
-    C: '6',
-    eoutput:'等边三角形',
-    aoutput:'-',
-    correctness:'Y'
-
+const tableData = ref([]);
+const debounce = (fn, delay) => {
+  let timer = null;
+  return function () {
+    let context = this;
+    let args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
   }
-]
+}
 
-onMounted(() => {
-  const myChart = echarts.init(document.getElementById('main'));
+const _ResizeObserver = window.ResizeObserver;
+window.ResizeObserver = class ResizeObserver extends _ResizeObserver{
+  constructor(callback) {
+    callback = debounce(callback, 16);
+    super(callback);
+  }
+}
 
-  const chartOptions = {
-    legend: {
-      orient: 'vertical',
-      x: 'left',
-      data: ['A', 'B', 'C', 'D', 'E']
-    },
-    series: [
-      {
-        type: 'pie',
-        radius: ['50%', '70%'],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: 'center'
-        },
-        labelLine: {
-          show: false
-        },
-        emphasis: {
+const handleChange = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:5000/api/Triangle_data', { 
+      params: {
+        value: choose_value.value
+      }})
+    tableData.value = response.data.tableData
+    // console.log(response.data);
+    // console.log(tableData.value);
+
+  } catch (error) {
+    console.error('Error fetching Triangle_testdata:', error)
+  }
+}
+
+const startTest = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:5000/api/Triangle_result', { 
+      params: {
+        value: choose_value.value
+      }})
+    tableData.value = response.data.tableData
+    // 初始化并显示饼状图
+    const myChart = echarts.init(document.getElementById('main'));
+
+    const chartOptions = {
+      legend: {
+        orient: 'vertical',
+        x: 'left',
+        data: ['Y', 'N']
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['50%', '70%'],
+          avoidLabelOverlap: false,
           label: {
-            show: true,
-            fontSize: '30',
-            fontWeight: 'bold'
-          }
-        },
-        data: [
-          { value: 335, name: 'A' },
-          { value: 310, name: 'B' },
-          { value: 234, name: 'C' },
-          { value: 135, name: 'D' },
-          { value: 1548, name: 'E' }
-        ]
-      }
-    ]
-  };
+            show: false,
+            position: 'center'
+          },
+          labelLine: {
+            show: false
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '30',
+              fontWeight: 'bold'
+            }
+          },
+          data: response.data.chartData
+        }
+      ]
+    };
 
-  myChart.setOption(chartOptions);
-});
+    myChart.setOption(chartOptions);
+
+  } catch (error) {
+    console.error('Error starting Triangle test:', error)
+  }
+}
 
 </script>
+
 
 <style>
 .el-row {
