@@ -35,6 +35,7 @@
           <el-table-column prop="Expected Output" label="期望输出" />
           <el-table-column prop="Actual Output" label="实际输出" />
           <el-table-column prop="Result" label="正确性"/>
+          <el-table-column prop="Analysis Strategy" label="测试类型"/>
         </el-table>
       </el-card>
     </el-col>
