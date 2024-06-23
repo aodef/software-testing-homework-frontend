@@ -1,17 +1,17 @@
 <template>
-  <el-card style="width: 100%" shadow="never">
-    <h1 style="font-weight: bold; font-size: 20px;">电信收费问题</h1>
+  <el-card style="width: 100%;border-radius: 10px;box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5)" shadow="never">
+    <h1 style="font-weight: bold; font-size: 20px;color: #677CAB">电信收费问题</h1>
     <p>研究一个与我们生活息息相关的电信收费系统，描述如下：每月电话总费用包括25元基本月租费和折扣后的实际通话费（每分钟0.15元），无折扣则按实际通话费计算。折扣与当月通话时间及年度未按时缴费次数相关，如果未按时缴费次数超过通话时间对应的容许值，则无折扣。通话时间、折扣比例及未按时缴费次数之间有直接关系。</p>
   </el-card>
   <el-row :gutter="20">
     <el-col :span="16"><div class="grid-content ep-bg-purple" />
-      <el-card style="width: 100%" shadow="never">
+      <el-card style="width: 100%;border-radius: 10px;box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5)" shadow="never">
         <template #header >
-          <div style="font-weight: bold; font-size: 20px;">测试用例</div>
+          <div style="font-weight: bold; font-size: 22px; color: #677CAB">测试用例</div>
         </template>
         <el-row :gutter="20">
           <el-col :span="16"><div class="grid-content ep-bg-purple" />
-            <el-select v-model="choose_value" placeholder="Select" style="width: 240px" @change="handleChange">
+            <el-select v-model="choose_value" placeholder="Select" style="width: 300px" @change="handleChange">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -23,12 +23,12 @@
           </el-col>
           <el-col :span="8"><div class="grid-content ep-bg-purple" />
             <div class="mb-4">
-              <el-button plain @click="startTest">开始测试</el-button>
+              <el-button plain @click="startTest" style="background-color:#677CAB; color:white;width:150px">开始测试</el-button>
             </div>
           </el-col>
         </el-row>
-        <el-table :data="tableData" height="250" style="width: 100%">
-          <el-table-column prop="ID" label="ID" />
+        <el-table :data="tableData" height="250" stripe style="width: 100%">
+          <el-table-column prop="ID" label="ID"/>
           <el-table-column prop="Minute" label="Minute"/>
           <el-table-column prop="Fail Time" label="Fail Time" />
           <el-table-column prop="Expected Output" label="Expected Output" />
@@ -165,6 +165,11 @@ const startTest = async () => {
   border-radius: 4px;
   min-height: 36px;
 }
+
+.el-menu-item {
+  color: white !important; /* 设置菜单项文字颜色为白色 */
+}
+
 </style>
 
 
