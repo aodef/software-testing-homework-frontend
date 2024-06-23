@@ -88,7 +88,10 @@ window.ResizeObserver = class ResizeObserver extends _ResizeObserver{
 
 const handleChange = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/api/Calendar_data')
+    const response = await axios.get('http://127.0.0.1:5000/api/Calendar_data', { 
+      params: {
+        value: choose_value.value
+      }})
     tableData.value = response.data.tableData
     // console.log(response.data);
     console.log(tableData.value);
