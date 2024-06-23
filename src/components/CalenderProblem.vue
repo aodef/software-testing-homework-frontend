@@ -107,7 +107,7 @@ const startTest = async () => {
       params: {
         value: choose_value.value
       }})
-    tableData.value = response.data
+    tableData.value = response.data.tableData
     // 初始化并显示饼状图
     const myChart = echarts.init(document.getElementById('main'));
 
