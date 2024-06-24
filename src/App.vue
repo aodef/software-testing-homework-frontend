@@ -59,4 +59,7 @@ const handleClose = (key, keyPath) => {
 .common-layout {
   background-color: #F3F6FB; /* 设置背景颜色，这里以浅灰色为例 */
 } 
+.el-menu-item {
+  color: white !important; /* 设置菜单项文字颜色为白色 */
+}
 </style>

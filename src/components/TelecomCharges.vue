@@ -28,12 +28,12 @@
           </el-col>
         </el-row>
         <el-table :data="tableData" height="250" stripe style="width: 100%">
-          <el-table-column prop="ID" label="ID"/>
-          <el-table-column prop="Minute" label="Minute"/>
-          <el-table-column prop="Fail Time" label="Fail Time" />
-          <el-table-column prop="Expected Output" label="Expected Output" />
-          <el-table-column prop="Actual Output" label="Actual Output" />
-          <el-table-column prop="Result" label="Correctness"/>
+          <el-table-column prop="ID" label="序号"/>
+          <el-table-column prop="Minute" label="分钟"/>
+          <el-table-column prop="Fail Time" label="未按时次数" />
+          <el-table-column prop="Expected Output" label="期望输出" />
+          <el-table-column prop="Actual Output" label="实际输出" />
+          <el-table-column prop="Result" label="正确性"/>
           <el-table-column prop="Analysis Strategy" label="测试类型"/>
         </el-table>
       </el-card>
@@ -168,10 +168,6 @@ const startTest = async () => {
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
-}
-
-.el-menu-item {
-  color: white !important; /* 设置菜单项文字颜色为白色 */
 }
 
 </style>

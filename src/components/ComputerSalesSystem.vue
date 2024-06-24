@@ -1,13 +1,13 @@
 <template>
-  <el-card style="width: 100%" shadow="never">
-    <h1 style="font-weight: bold; font-size: 20px;">电脑销售系统</h1>
+  <el-card style="width: 100%;border-radius: 10px;box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5)" shadow="never">
+    <h1 style="font-weight: bold; font-size: 20px;color: #677CAB">电脑销售系统</h1>
     <p>这是一个关于电脑销售系统的问题，其中包括销售主机、显示器和外设，每个产品有不同的价格和最大销售数量限制。销售员每月至少要销售一台完整的电脑。</p>
   </el-card>
   <el-row :gutter="20">
     <el-col :span="16"><div class="grid-content ep-bg-purple" />
-      <el-card style="width: 100%" shadow="never">
+      <el-card style="width: 100%;border-radius: 10px;box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5)" shadow="never">
         <template #header >
-          <div style="font-weight: bold; font-size: 20px;">测试用例</div>
+          <div style="font-weight: bold; font-size: 20px; color: #677CAB">测试用例</div>
         </template>
         <el-row :gutter="20">
           <el-col :span="16"><div class="grid-content ep-bg-purple" />
@@ -23,7 +23,7 @@
           </el-col>
           <el-col :span="8"><div class="grid-content ep-bg-purple" />
             <div class="mb-4">
-              <el-button plain @click="startTest">开始测试</el-button>
+              <el-button plain @click="startTest" style="background-color:#677CAB; color:white;width:150px">开始测试</el-button>
             </div>
           </el-col>
         </el-row>
