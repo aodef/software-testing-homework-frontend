@@ -62,6 +62,10 @@ const options = [
   {
     value: '3',
     label: '决策表',
+  },
+  {
+    value: '4',
+    label: '最优测试方法',
   }
   
 ]

@@ -59,10 +59,6 @@ const options = [
   {
     value: '2',
     label: '等价类',
-  },
-  {
-    value: '3',
-    label: '决策表',
   }
   
 ]
